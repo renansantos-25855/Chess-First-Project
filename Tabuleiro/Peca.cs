@@ -20,5 +20,9 @@ namespace Tabuleiro
 
         }
 
+        public void incrementarQtdeMovimentos()
+        {
+            QtdeMovimentos++;
+        }
     }
 }

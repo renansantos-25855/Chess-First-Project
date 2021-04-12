@@ -5,12 +5,12 @@ using Tabuleiro;
 
 namespace Xadrez
 {
-    class PosicaoXadez
+    class PosicaoXadrez
     {
         public char Coluna { get; set; }
         public int Linha { get; set; }
 
-        public PosicaoXadez(char coluna, int linha)
+        public PosicaoXadrez(char coluna, int linha)
         {
             Coluna = coluna;
             Linha = linha;
