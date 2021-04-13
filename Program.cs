@@ -15,28 +15,59 @@ namespace Xadrez_Console
 
                 while (!partida.terminada)
                 {
-                    Console.Clear();
-                    Tela.imprimirTabuleiro(partida.tab);
+                    try
+                    {
+                        Console.Clear();
+                        Tela.imprimirTabuleiro(partida.tab);
+                        Console.WriteLine();
+                        Console.WriteLine("Turno: " + partida.Turno);
+                        Console.WriteLine("Aguardando jogada: " + partida.JogadorAtual);
 
+                        Console.WriteLine();
+                        Console.Write("Origem: ");
+                        Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
+                        partida.validarPosicaoDeOrigem(origem);
 
-                    Console.WriteLine();
-                    Console.Write("Origem: ");
-                    Posicao origem = Tela.lerPosicaoXadrez().toPosicao();
+                        bool[,] posicoesPossiveis = partida.tab.peca(origem).MovimentosPossiveis();
 
-                    bool[,] posicoesPossiveis = partida.tab.peca(origem).MovimentosPossiveis();
+                        Console.Clear();
+                        Tela.imprimirTabuleiro(partida.tab, posicoesPossiveis);
 
-                    Console.Clear();
-                    Tela.imprimirTabuleiro(partida.tab, posicoesPossiveis);
+                        Console.WriteLine();
+                        Console.Write("Destino: ");
+                        Posicao destino = Tela.lerPosicaoXadrez().toPosicao();
+                        partida.validarPosicaoDeDestino(origem, destino);
 
-                    Console.WriteLine();
-                    Console.Write("Destino: ");
-                    Posicao destino = Tela.lerPosicaoXadrez().toPosicao();
+                        partida.realizaJogada(origem, destino);
+                    }
+                    catch (TabuleiroException e)
+                    {
+                        Console.WriteLine(e.Message);                            
+                        Console.WriteLine("\n\nPressione ENTER para continuar...");
 
-                    partida.executaMovimento(origem, destino);
+                        do
+                        {
+                        } while (Console.ReadKey().Key != ConsoleKey.Enter);
+                    }
+                    catch(FormatException)
+                    {
+                        Console.WriteLine("\nValor de origem fora do padrão! Tente novamente");                            
+                        Console.WriteLine("\n\nPressione ENTER para continuar...");
+
+                        do
+                        {   
+                        } while (Console.ReadKey().Key != ConsoleKey.Enter);
+                    }
+                    catch (IndexOutOfRangeException)
+                    {
+                        Console.WriteLine("\nValor de origem fora do padrão! Tente novamente");
+                        Console.WriteLine("\n\nPressione ENTER para continuar...");
+
+                        do
+                        {
+                        } while (Console.ReadKey().Key != ConsoleKey.Enter);
+                    }
                 }
-
-
-
                 Console.WriteLine();
             }
             catch(TabuleiroException e)
